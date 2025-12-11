@@ -3,6 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { SecretsModule } from './secrets/secrets.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
         synchronize: true, // En produccion, es mejor usar migraciones en lugar de synchronize
       }),
     }),
+    SecretsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
