@@ -1,7 +1,7 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param } from '@nestjs/common';
 import { SecretsService } from './secrets.service';
 import { CreateSecretDto } from './dto/create-secret.dto';
-import { UpdateSecretDto } from './dto/update-secret.dto';
+// import { UpdateSecretDto } from './dto/update-secret.dto';
 
 @Controller('secrets')
 export class SecretsController {
@@ -19,16 +19,16 @@ export class SecretsController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.secretsService.findOne(+id);
+    return this.secretsService.findOne(id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateSecretDto: UpdateSecretDto) {
-    return this.secretsService.update(+id, updateSecretDto);
-  }
+  // @Patch(':id')
+  // update(@Param('id') id: string, @Body() updateSecretDto: UpdateSecretDto) {
+  //   return this.secretsService.update(+id, updateSecretDto);
+  // }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.secretsService.remove(+id);
-  }
+  // @Delete(':id')
+  // remove(@Param('id') id: string) {
+  //   return this.secretsService.remove(+id);
+  // }
 }
