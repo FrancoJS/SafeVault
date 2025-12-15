@@ -1,1 +1,4 @@
-export class CreateSecretDto {}
+export class CreateSecretDto {
+  name: string;
+  value: string;
+}
