@@ -5,6 +5,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SecretsModule } from './secrets/secrets.module';
 import { EncryptionModule } from './encryption/encryption.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { EncryptionModule } from './encryption/encryption.module';
     }),
     SecretsModule,
     EncryptionModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

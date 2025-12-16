@@ -1,9 +1,11 @@
-import { Controller, Get, Post, Body, Param } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, UseGuards } from '@nestjs/common';
 import { SecretsService } from './secrets.service';
 import { CreateSecretDto } from './dto/create-secret.dto';
+import { ApiKeyGuard } from 'src/auth/api-key/api-key.guard';
 // import { UpdateSecretDto } from './dto/update-secret.dto';
 
 @Controller('secrets')
+@UseGuards(ApiKeyGuard)
 export class SecretsController {
   constructor(private readonly secretsService: SecretsService) {}
 
