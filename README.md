@@ -7,15 +7,15 @@ Este proyecto implementa prácticas de DevSecOps, incluyendo encriptación AES-2
 
 - **Backend:** NestJS (TypeScript)
 - **Database:** PostgreSQL 15 (Dockerized)
-- **Security:** AES-256 Encryption, JWT Auth, Bcrypt
+- **Security:** AES-256 Encryption
 - **Infrastructure:** Docker & Docker Compose
 
 ## 🛠️ Instalación y Uso
 
 1. **Clonar el repositorio**
 2. **Configurar variables de entorno**
-   Crea un archivo `.env` basado en el ejemplo y define `DB_PASSWORD` y `ENCRYPTION_KEY`.
+   Crea un archivo `.env` basado en el ejemplo
 3. **Levantar infraestructura**
    ```bash
-   docker-compose up -d
+   docker-compose up -d --build
    ```
