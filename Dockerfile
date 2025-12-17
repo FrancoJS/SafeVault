@@ -1,23 +1,39 @@
-# Ocupar una imagen pequena y eficiente de Node.js
-FROM node:18-alpine
+# --- ETAPA 1: BUILDER (El Constructor) ---
+# Usamos una imagen de Node ligera (Alpine Linux)
+FROM node:20-alpine AS builder
 
-# Establecer el directorio de trabajo dentro del contenedor
-WORKDIR /usr/src/app
+# Creamos el directorio de trabajo dentro del contenedor
+WORKDIR /app
 
-# Copiar los archivos de package.json y package-lock.json
+# 1. Copiamos SOLO los archivos de dependencias primero
+# Esto aprovecha la caché de Docker. Si no cambias dependencias, este paso se salta.
 COPY package*.json ./
 
-# Instalar las dependencias del proyecto
-RUN npm install
+# 2. Instalamos TODAS las dependencias (incluyendo devDependencies para compilar)
+RUN npm ci
 
-# Copiar el resto de los archivos del proyecto al contenedor
+# 3. Copiamos el resto del código fuente
 COPY . .
 
-# Construir la aplicacion para produccion
+# 4. Compilamos el proyecto (TS -> JS en carpeta /dist)
 RUN npm run build
 
-# Exponer el puerto en el que la aplicacion se ejecutara
+# --- ETAPA 2: RUNNER (El Ejecutor - Producción) ---
+FROM node:20-alpine AS runner
+
+WORKDIR /app
+
+# Copiamos solo los archivos de dependencias nuevamente
+COPY package*.json ./
+
+# 1. Instalamos SOLO dependencias de producción (más ligero y seguro)
+RUN npm ci --only=production
+
+# 2. Copiamos la carpeta compilada (dist) desde la Etapa 1 (builder)
+COPY --from=builder /app/dist ./dist
+
+# 3. Exponemos el puerto 3000 (informativo)
 EXPOSE 3000
 
-# Comando para iniciar la aplicacion en modo produccion
-CMD ["npm", "run", "start:prod"]
+# 4. Comando para iniciar la app en modo producción
+CMD ["node", "dist/main"]
